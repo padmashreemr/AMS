@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+		<meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <title>Login Form</title>
+        <meta name="description" content="Login Form" />
+        <meta name="keywords" content="css3, login, form, custom, input, submit, button, html5, placeholder" />
+        <link rel="shortcut icon" href="../favicon.ico"> 
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script language="javascript" src="jsrs.js"></script>
+		<script language="javascript">
+
+    var c;  //page communication object
+
+    /** 1. create a new communication object
+     *  2. send a url query string to 'receive.php'
+     *     which it will then process and send back data
+     *     in key-value pairs
+     */
+    function send() {
+      c = new comm();       
+
+      var firstname = document.getElementById("firstname");
+      var password = document.getElementById("password");
+      var query = new Array();
+      query[0] = 'firstname=' + firstname.value;
+      query[1] = 'password=' + password.value;
+      
+      //var query = "firstname=" + firstname.value;
+      c.send(query);  
+    }
+
+    /**This function is called automatically when the hidden 
+     * iframe page has been successfully refreshed 
+     * (and contains the newly requested data, stored in the 
+     * javascript arrays "keys" and "values"
+     */
+    function receive( returnstring ){
+	var keys = c.getKeys();  //you can access the keys and values directly
+	var values = c.getValues();
+	
+	//alert(c.get(keys[1]));
+    
+   	if(c.get(keys[1]) == "VALID")
+	{
+		//document.location.href="../ResEntryMenu/ResidentInfo.html";
+		var data = new Array();
+		data[0] = "uname=padma";
+		sendData("../ResEntryMenu/ResidentInfo.html", data);
+	} 
+	
+	//alert(c.get('lastname')); //or just use the get() function (in jsrs.js)
+	                        //to get a value that corresponds to a given key
+    } // receive()
+    
+    function sendData(url, data)
+	{
+		// Initialize packed or we get the word 'undefined'
+		var packed = "";
+		for (i = 0; (i < data.length); i++) {
+			if (i > 0) {
+			  packed += ",";
+			}
+			packed += escape(data[i]);
+		}
+
+		window.location = url + "?" + packed;
+	} // sendData()
+
+  </script>
+
+		<style>	
+			@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700|Handlee);
+			body {
+				background: #eedfcc url(images/bg.jpg) no-repeat center top;
+				-webkit-background-size: cover;
+				-moz-background-size: cover;
+				background-size: cover;
+			}
+			.container > header h1,
+			.container > header h2 {
+				color: #fff;
+				text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+			}
+		</style>
+    </head>
+    <body>
+        <div class="container">
+			<header>			
+				<h1>TechNest <strong>Login Form</strong></h1>
+				<h2>Login to get access into your Apartment/Villa information</h2>
+				<div class="support-note">
+					<span class="note-ie">Sorry, only modern browsers.</span>
+				</div>
+				
+			</header>
+			
+			<section class="main">
+				<form class="form-5 clearfix" onsubmit="send();return false;">
+				    <p>
+				        <input type="text" id="firstname" name="login" placeholder="Username">
+				        <input type="password" name="password" id="password" placeholder="Password"> 
+				         
+				    </p>
+				    <button type="submit" name="submit" value="GO">
+				    	<i class="icon-arrow-right"></i>
+				    	<span>Sign in</span>
+				    </button>     
+				</form>​​​​
+			</section>			
+        </div>
+    </body>
+</html>
+
+
+
